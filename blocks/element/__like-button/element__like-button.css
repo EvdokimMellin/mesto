@@ -1,0 +1,6 @@
+.element__like-button {
+  grid-area: button;
+  justify-self: end;
+  align-self: center;
+  margin-right: 20px;
+}
