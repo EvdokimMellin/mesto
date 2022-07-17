@@ -3,4 +3,20 @@
   justify-self: end;
   align-self: center;
   margin-right: 20px;
+  width: 22px;
+  height: 19px;
+  border: 0;
+  background-position: center;
+  background-size: cover;
+  background-image: url(../../../images/like-disabled.svg);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.element__like-button:hover {
+  opacity: 0.5;
+}
+
+.element__like-button:active {
+  background-image: url(../../../images/like-active.svg);
+  opacity: 1;
 }

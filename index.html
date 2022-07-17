@@ -8,50 +8,61 @@
 </head>
 <body>
   <div class="page">
+    <div class="popup"><!--<div class="popup popup_opened">-->
+      <div class="popup__container">
+        <img src="./images/close-button.svg" alr="Закрыть" class="popup__close-button"></img>
+        <p class="popup__title">Редактировать профиль</p>
+        <input type="text" name="name" id="name" class="popup__input popup__input_type_name">
+        <input type="text" name="description" id="description" class="popup__input popup__input_type_description">
+        <button class="popup__save-button">Сохранить</button>
+      </div>
+    </div>
     <header class="header">
       <img src="./images/logo.svg" alt="Mesto" class="header__logo">
-      <!--<hr class="header__line">-->
     </header>
     <main class="content">
       <section class="profile">
-        <img src="./images/profile-avatar.svg" alt="Аватар" class="profile__avatar">
+        <img src="./images/profile-avatar.svg" alt="Аватар">
         <div class="profile__info">
-          <p class="profile__name">Жак-Ив Кусто<img alt="Редактировать" src="./images/edit-button.svg" class="profile__edit-button"></p>
+          <div class="profile__name-container">
+            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <img alt="Редактировать" src="./images/edit-button.svg" class="profile__edit-button">
+          </div>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <img src="./images/add-button.svg" alt="Добавить" class="profile__add-button">
+        <div class="profile__add-button"><img src="./images/add-button.svg" alt="Добавить" class="profile__add-image"></div>
       </section>
       <section class="elements">
         <ul class="elements__list">
           <li class="element">
             <img src="./images/karachayevsk.png" alt="Изображение" class="element__image">
             <p class="element__title">Карачаевск</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
           <li class="element">
             <img src="./images/elbrus.png" alt="Изображение" class="element__image">
             <p class="element__title">Гора Эльбрус</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
           <li class="element">
             <img src="./images/dombai.png" alt="Изображение" class="element__image">
             <p class="element__title">Домбай</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
           <li class="element">
             <img src="./images/elbrus.png" alt="Изображение" class="element__image">
             <p class="element__title">Гора Эльбрус</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
           <li class="element">
             <img src="./images/dombai.png" alt="Изображение" class="element__image">
             <p class="element__title">Домбай</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
           <li class="element">
             <img src="./images/karachayevsk.png" alt="Изображение" class="element__image">
             <p class="element__title">Карачаево-Черкессия</p>
-            <img src="./images/like-disabled.svg" alt="Нравится" class="element__like-button">
+            <button class="element__like-button"></button>
           </li>
         </ul>
       </section>
@@ -60,10 +71,7 @@
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
   </div>
+  <script src="./scripts/index.js"></script>
 </body>
 </html>
 
-<!--Вопросики к коду
-1. Удалить лишние комментарии, классы и их файлы. (element__description как минимум)
-2. Изображения (это кошмар)
-3. Адаптивность!!!-->
