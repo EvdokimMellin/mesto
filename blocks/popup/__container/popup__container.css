@@ -1,7 +1,7 @@
 .popup__container {
   background: #fff;
   width: 394px;
-  height: 330px;
+  min-height: 330px;
   border-radius: 10px;
   padding-left: 36px;
   position: relative;
@@ -10,7 +10,7 @@
 @media all and (max-width: 1023px) {
   .popup__container {
     width: 260px;
-    height: 322px;
+    min-height: 322px;
     padding-left: 22px;
   }
 }

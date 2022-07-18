@@ -10,11 +10,13 @@
   <div class="page">
     <div class="popup"><!--<div class="popup popup_opened">-->
       <div class="popup__container">
-        <img src="./images/close-button.svg" alt="Закрыть" class="popup__close-button">
-        <p class="popup__title">Редактировать профиль</p>
-        <input type="text" name="name" id="name" class="popup__input popup__input_type_name">
-        <input type="text" name="description" id="description" class="popup__input popup__input_type_description">
-        <button class="popup__save-button">Сохранить</button>
+        <button class="popup__close-button" type="button"></button>
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <form name="popup" class="popup__form" id="submitform">
+          <input type="text" name="name" id="name" class="popup__input popup__input_type_name">
+          <input type="text" name="description" id="description" class="popup__input popup__input_type_description">
+          <button type="submit" class="popup__save-button">Сохранить</button>
+        </form>
       </div>
     </div>
     <header class="header">
@@ -26,43 +28,43 @@
         <div class="profile__info">
           <div class="profile__name-container">
             <h1 class="profile__name">Жак-Ив Кусто</h1>
-            <img alt="Редактировать" src="./images/edit-button.svg" class="profile__edit-button">
+            <button class="profile__edit-button" type="button"></button>
           </div>
           <p class="profile__description">Исследователь океана</p>
         </div>
-        <div class="profile__add-button"><img src="./images/add-button.svg" alt="Добавить" class="profile__add-image"></div>
+        <button class="profile__add-button"><img src="./images/add-button.svg" alt="Добавить" class="profile__add-image"></button>
       </section>
       <section class="elements">
         <ul class="elements__list">
           <li class="element">
             <img src="./images/karachayevsk.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Карачаевск</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Карачаевск</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
           <li class="element">
             <img src="./images/elbrus.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Гора Эльбрус</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
           <li class="element">
             <img src="./images/dombai.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Домбай</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
           <li class="element">
             <img src="./images/elbrus.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Гора Эльбрус</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Гора Эльбрус</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
           <li class="element">
             <img src="./images/dombai.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Домбай</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Домбай</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
           <li class="element">
             <img src="./images/karachayevsk.jpeg" alt="Изображение" class="element__image">
-            <p class="element__title">Карачаево-Черкессия</p>
-            <button class="element__like-button"></button>
+            <h2 class="element__title">Карачаево-Черкессия</h2>
+            <button class="element__like-button" type="button"></button>
           </li>
         </ul>
       </section>

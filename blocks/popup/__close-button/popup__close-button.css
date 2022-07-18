@@ -4,6 +4,9 @@
   position: absolute;
   top: -40px;
   right: -40px;
+  background-image: url(../../../images/close-button.svg);
+  background-color: rgba(0, 0, 0, 0);
+  border: 0;
 }
 
 .popup__close-button:hover {
