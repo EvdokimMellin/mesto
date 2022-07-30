@@ -8,6 +8,7 @@
   background-size: cover;
   background-color: rgba(0, 0, 0, 0);
   border: 0;
+  cursor: pointer;
 }
 
 .profile__edit-button:hover {

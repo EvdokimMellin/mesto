@@ -8,17 +8,36 @@
 </head>
 <body>
   <div class="page">
-    <div class="popup"><!--<div class="popup popup_opened">-->
+    <div class="popup popup_type_edit">
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form name="popup" class="popup__form" id="submitform">
-          <input type="text" name="name" id="name" class="popup__input popup__input_type_name">
-          <input type="text" name="description" id="description" class="popup__input popup__input_type_description">
+        <form name="popup" class="popup__form" id="edit-form">
+          <input type="text" name="name" id="edit-name" class="popup__input popup__input_type_name">
+          <input type="text" name="description" id="edit-description" class="popup__input popup__input_type_description">
           <button type="submit" class="popup__save-button">Сохранить</button>
         </form>
       </div>
     </div>
+    <div class="popup popup_type_add">
+      <div class="popup__container">
+        <button class="popup__close-button" type="button"></button>
+        <p class="popup__title">Новое место</p>
+        <form name="popup" class="popup__form" id="newcard-form">
+          <input type="text" name="name" id="add-name" class="popup__input popup__input_type_name" placeholder="Название">
+          <input type="text" name="description" id="add-description" class="popup__input popup__input_type_description" placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__save-button">Создать</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_image">
+      <div class="popup__image-container">
+        <button class="popup__close-button"></button>
+        <img class="popup__image" alt="Изображение" src='https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'>
+        <p class="popup__image-title">Изображение</p>
+      </div>
+    </div>
+
     <header class="header">
       <img src="./images/logo.svg" alt="Место" class="header__logo">
     </header>
@@ -35,45 +54,23 @@
         <button class="profile__add-button" type="button"><img src="./images/add-button.svg" alt="Добавить" class="profile__add-image"></button>
       </section>
       <section class="elements">
-        <ul class="elements__list">
-          <li class="element">
-            <img src="./images/karachayevsk.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Карачаевск</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-          <li class="element">
-            <img src="./images/elbrus.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-          <li class="element">
-            <img src="./images/dombai.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-          <li class="element">
-            <img src="./images/elbrus.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Гора Эльбрус</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-          <li class="element">
-            <img src="./images/dombai.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Домбай</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-          <li class="element">
-            <img src="./images/karachayevsk.jpeg" alt="Изображение" class="element__image">
-            <h2 class="element__title">Карачаево-Черкессия</h2>
-            <button class="element__like-button" type="button"></button>
-          </li>
-        </ul>
+        <ul class="elements__list"></ul>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2020 Mesto Russia</p>
     </footer>
   </div>
-  <script src="./scripts/index.js"></script>
+
+  <template id="element-template">
+    <li class="element">
+      <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Изображение" class="element__image">
+      <h2 class="element__title"></h2>
+      <button class="element__like-button" type="button"></button>
+      <button class="element__del-button" type="button"></button>
+    </li>
+  </template>
+
+  <script src="./scripts/index.js" defer></script>
 </body>
 </html>
-

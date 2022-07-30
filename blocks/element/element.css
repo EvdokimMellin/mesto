@@ -4,11 +4,9 @@
   overflow: hidden;
   display: grid;
   grid-template-rows: 282px 1fr;
-  grid-template-columns: 206px 1fr; /*Я опытным путем выяснил, что
-  многоточие после буквы "Ч" в слове "Карачаево-Черкессия", как в макете,
-  ставится при ширине текста ~185 пискселей, кроме того у текста есть
-  левый отступ в 21 пиксель. Общая ширина колонки получается 206 пикселей.*/
+  grid-template-columns: 206px 1fr;
   grid-template-areas: "image image"
                        "title button";
   min-height: 361px;
+  position: relative;
 }
