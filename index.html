@@ -12,9 +12,9 @@
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form name="popup" class="popup__form" id="edit-form">
-          <input type="text" name="name" id="edit-name" class="popup__input popup__input_type_name">
-          <input type="text" name="description" id="edit-description" class="popup__input popup__input_type_description">
+        <form name="edit-popup" class="popup__form" id="edit-form">
+          <input type="text" name="edit-name" id="edit-name" class="popup__input popup__input_type_name">
+          <input type="text" name="edit-description" id="edit-description" class="popup__input popup__input_type_description">
           <button type="submit" class="popup__save-button">Сохранить</button>
         </form>
       </div>
@@ -23,9 +23,9 @@
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <p class="popup__title">Новое место</p>
-        <form name="popup" class="popup__form" id="newcard-form">
-          <input type="text" name="name" id="add-name" class="popup__input popup__input_type_name" placeholder="Название">
-          <input type="text" name="description" id="add-description" class="popup__input popup__input_type_description" placeholder="Ссылка на картинку">
+        <form name="add-popup" class="popup__form" id="newcard-form">
+          <input type="text" name="add-name" id="add-name" class="popup__input popup__input_type_name" placeholder="Название">
+          <input type="text" name="add-description" id="add-description" class="popup__input popup__input_type_description" placeholder="Ссылка на картинку">
           <button type="submit" class="popup__save-button">Создать</button>
         </form>
       </div>
@@ -53,8 +53,8 @@
         </div>
         <button class="profile__add-button" type="button"><img src="./images/add-button.svg" alt="Добавить" class="profile__add-image"></button>
       </section>
-      <section class="elements">
-        <ul class="elements__list"></ul>
+      <section class="cards">
+        <ul class="cards__list"></ul>
       </section>
     </main>
     <footer class="footer">
@@ -62,12 +62,12 @@
     </footer>
   </div>
 
-  <template id="element-template">
-    <li class="element">
-      <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Изображение" class="element__image">
-      <h2 class="element__title"></h2>
-      <button class="element__like-button" type="button"></button>
-      <button class="element__del-button" type="button"></button>
+  <template id="card-template">
+    <li class="card">
+      <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Изображение" class="card__image">
+      <h2 class="card__title"></h2>
+      <button class="card__like-button" type="button"></button>
+      <button class="card__del-button" type="button"></button>
     </li>
   </template>
 

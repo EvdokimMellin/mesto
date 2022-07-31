@@ -1,4 +1,4 @@
-.elements__list {
+.cards__list {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -10,7 +10,7 @@
 }
 
 @media all and (max-width: 1023px) {
-  .elements__list {
+  .cards__list {
     grid-template-columns: 282px;
     grid-template-rows: repeat(6, 1fr);
     justify-content: center;
