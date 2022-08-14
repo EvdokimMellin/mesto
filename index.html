@@ -12,9 +12,11 @@
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <h3 class="popup__title">Редактировать профиль</h3>
-        <form name="edit-popup" class="popup__form" id="edit-form">
-          <input type="text" name="edit-name" id="edit-name" class="popup__input popup__input_type_name">
-          <input type="text" name="edit-description" id="edit-description" class="popup__input popup__input_type_description">
+        <form name="edit-popup" class="popup__form" id="edit-form" novalidate>
+          <input type="text" name="edit-name" id="edit-name" class="popup__input popup__input_type_name" required minlength="2" maxlength="40">
+          <span class="popup__input-error edit-name-error"></span>
+          <input type="text" name="edit-description" id="edit-description" class="popup__input popup__input_type_description" required minlength="2" maxlength="200">
+          <span class="popup__input-error edit-description-error"></span>
           <button type="submit" class="popup__save-button">Сохранить</button>
         </form>
       </div>
@@ -23,9 +25,11 @@
       <div class="popup__container">
         <button class="popup__close-button" type="button"></button>
         <p class="popup__title">Новое место</p>
-        <form name="add-popup" class="popup__form" id="newcard-form">
-          <input type="text" name="add-name" id="add-name" class="popup__input popup__input_type_name" placeholder="Название">
-          <input type="text" name="add-description" id="add-description" class="popup__input popup__input_type_description" placeholder="Ссылка на картинку">
+        <form name="add-popup" class="popup__form" id="newcard-form" novalidate>
+          <input type="text" name="add-name" id="add-name" class="popup__input popup__input_type_name" placeholder="Название" required minlength="2" maxlength="30">
+          <span class="popup__input-error add-name-error"></span>
+          <input type="url" name="add-description" id="add-description" class="popup__input popup__input_type_description" placeholder="Ссылка на картинку" required>
+          <span class="popup__input-error add-description-error"></span>
           <button type="submit" class="popup__save-button">Создать</button>
         </form>
       </div>
@@ -72,5 +76,7 @@
   </template>
 
   <script src="./scripts/index.js" defer></script>
+  <script src="./scripts/validate.js" defer></script>
 </body>
 </html>
+
