@@ -47,6 +47,7 @@ const popupAddOpenButton = document.querySelector('.profile__add-button');
 const popupAddCloseButton = popupAdd.querySelector('.popup__close-button');
 const popupAddInputName = popupAdd.querySelector('.popup__input_type_name');
 const popupAddInputInfo = popupAdd.querySelector('.popup__input_type_description');
+const popupAddSubmitButton = popupAdd.querySelector('.popup__save-button');
 
 
 
@@ -56,11 +57,13 @@ const popupAddInputInfo = popupAdd.querySelector('.popup__input_type_description
 
 function openPopup (popup) {
   popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closePopupByEscape);
 }
 
 
 function closePopup (popup) {
   popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closePopupByEscape);
 }
 
 
@@ -68,6 +71,7 @@ function renderPopupImage (title, link) {
   openPopup(popupImage);
   popupImageTitle.textContent = title;
   popupImageContent.setAttribute('src', link);
+  popupImageContent.setAttribute('alt', title);
 }
 
 
@@ -87,12 +91,7 @@ function createCard (text, link) {
   image.setAttribute('src', link);
 
   function like () {
-    if (likeButton.classList.contains('card__like-button_active')) {
-      likeButton.classList.remove('card__like-button_active');
-    }
-    else {
-      likeButton.classList.add('card__like-button_active')
-    }
+    likeButton.classList.toggle('card__like-button_active');
   }
 
   function del () {
@@ -117,9 +116,16 @@ function renderCard (text, link) {
 function renderPopupEdit () {
   popupEditInputName.value = profileName.textContent;
   popupEditInputInfo.value = profileInfo.textContent;
-  activateButton(popupEditSubmitButton); //Изначально кнопка неактивна, но после автоматического заполнения валидными значениями необходимо ее активировать
-  hideError(popupEditForm, popupEditInputName); // При закрытии попапа поля возвращаются к исходным валидным значениям, поэтому необходимо убрать ошибку
-  hideError(popupEditForm, popupEditInputInfo);
+  activateButton(popupEditSubmitButton);
+  hideError({inputErrorClass: 'popup__input_invalid'}, popupEditInputName, popupEditForm);
+  hideError({inputErrorClass: 'popup__input_invalid'}, popupEditInputInfo, popupEditForm);
+  enableValidation({
+    formSelector: '#edit-form',
+    submitButtonSelector: '#edit-save-button',
+    inputErrorClass: 'popup__input_invalid',
+    inputSelector: '.popup__input'
+    //inactiveButtonClass и errorClass я не использую, потому что стили неактивной кнопки прописаны через псевдокласс "disabled", а errorClass ищется по id поля ввода
+  });
   openPopup(popupEdit);
 }
 
@@ -138,10 +144,16 @@ function submitPopupEdit (evt) {
 
 
 function renderPopupAdd () {
-  popupAddInputName.value = '';
-  popupAddInputInfo.value = '';
-  hideError(popupAddForm, popupAddInputName);
-  hideError(popupAddForm, popupAddInputInfo);
+  popupAddForm.reset();
+  hideError({inputErrorClass: 'popup__input_invalid'}, popupAddInputName, popupAddForm);
+  hideError({inputErrorClass: 'popup__input_invalid'}, popupAddInputInfo, popupAddForm);
+  deactivateButton(popupAddSubmitButton);
+  enableValidation({
+    formSelector: '#newcard-form',
+    submitButtonSelector: '#add-save-button',
+    inputErrorClass: 'popup__input_invalid',
+    inputSelector: '.popup__input'
+  });
   openPopup(popupAdd);
 }
 
@@ -155,8 +167,6 @@ function submitPopupAdd (evt) {
   evt.preventDefault();
 
   renderCard(popupAddInputName.value, popupAddInputInfo.value);
-  popupAddInputName.value = '';
-  popupAddInputInfo.value = '';
 
   closePopup(popupAdd);
 }
@@ -170,9 +180,7 @@ function closePopupByOverlay (evt) {
 function closePopupByEscape (evt) {
   if (evt.key === 'Escape') {
     const popup = document.querySelector('.popup_opened')
-    if (popup) {
-      closePopup (popup);
-    }
+    closePopup (popup);
   }
 }
 
@@ -185,20 +193,17 @@ function closePopupByEscape (evt) {
 popupImageCloseButton.addEventListener('click', closePopupImage);
 popupImage.addEventListener('click', closePopupByOverlay);
 
-for (let i = 0; i < initialCards.length; i++) {
-  renderCard(initialCards[i].name, initialCards[i].link);
-}
+initialCards.forEach(function (initialCard) {
+  renderCard(initialCard.name, initialCard.link);
+});
 
 popupEditOpenButton.addEventListener('click', renderPopupEdit);
 popupEditCloseButton.addEventListener('click', closePopupEdit);
 popupEdit.addEventListener('click', closePopupByOverlay);
-popupEdit.addEventListener('keydown', closePopupByEscape);
 popupEditForm.addEventListener('submit', submitPopupEdit);
 
 popupAddOpenButton.addEventListener('click', renderPopupAdd);
 popupAddCloseButton.addEventListener('click', closePopupAdd);
 popupAdd.addEventListener('click', closePopupByOverlay);
-popupAdd.addEventListener('keydown', closePopupByEscape);
 popupAddForm.addEventListener('submit', submitPopupAdd);
 
-document.addEventListener('keydown', closePopupByEscape);
