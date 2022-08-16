@@ -1,20 +1,20 @@
-function showError (settings, input, errorText, form) {
+function showError (form, input, errorText) {
   const error = form.querySelector(`.${input.id}-error`);
-  input.classList.add(settings.inputErrorClass);
+  input.classList.add('popup__input_invalid');
   error.textContent = errorText;
 };
 
-function hideError (settings, input, form) {
+function hideError (form, input) {
   const error = form.querySelector(`.${input.id}-error`);
-  input.classList.remove(settings.inputErrorClass);
+  input.classList.remove('popup__input_invalid');
   error.textContent = '';
 };
 
-function checkValidity (settings, input, form) {
+function checkValidity (form, input) {
   if (!input.validity.valid) {
-    showError(settings, input, input.validationMessage, form);
+    showError(form, input, input.validationMessage);
   } else {
-    hideError(settings, input, form);
+    hideError(form, input);
   }
 };
 
@@ -42,30 +42,25 @@ function toggleButtonState (inputList, submitButton) {
 
 
 
-function setEventListeners (form, settings) {
-  const inputList = Array.from(form.querySelectorAll(settings.inputSelector));
-  const submitButton = form.querySelector(settings.submitButtonSelector);
+function setEventListeners (form) {
+  const inputList = Array.from(form.querySelectorAll('.popup__input'));
+  const submitButton = form.querySelector('.popup__save-button');
 
   toggleButtonState(inputList, submitButton);
 
   inputList.forEach((input) => {
     input.addEventListener('input', function () {
-      checkValidity(settings, input, form);
+      checkValidity(form, input);
       toggleButtonState(inputList, submitButton);
     });
   });
 };
 
-function enableValidation (settings) {
-  const formList = Array.from(document.querySelectorAll(settings.formSelector));
+function enableValidation () {
+  const formList = Array.from(document.querySelectorAll('.popup__form'));
   formList.forEach((form) => {
-    setEventListeners(form, settings);
+    setEventListeners(form);
   });
 };
 
-enableValidation({
-  formSelector: '.popup__form',
-  submitButtonSelector: '.popup__save-button',
-  inputErrorClass: 'popup__input_invalid',
-  inputSelector: '.popup__input'
-});
+enableValidation();

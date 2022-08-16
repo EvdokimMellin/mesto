@@ -119,13 +119,6 @@ function renderPopupEdit () {
   activateButton(popupEditSubmitButton);
   hideError({inputErrorClass: 'popup__input_invalid'}, popupEditInputName, popupEditForm);
   hideError({inputErrorClass: 'popup__input_invalid'}, popupEditInputInfo, popupEditForm);
-  enableValidation({
-    formSelector: '#edit-form',
-    submitButtonSelector: '#edit-save-button',
-    inputErrorClass: 'popup__input_invalid',
-    inputSelector: '.popup__input'
-    //inactiveButtonClass и errorClass я не использую, потому что стили неактивной кнопки прописаны через псевдокласс "disabled", а errorClass ищется по id поля ввода
-  });
   openPopup(popupEdit);
 }
 
@@ -148,12 +141,6 @@ function renderPopupAdd () {
   hideError({inputErrorClass: 'popup__input_invalid'}, popupAddInputName, popupAddForm);
   hideError({inputErrorClass: 'popup__input_invalid'}, popupAddInputInfo, popupAddForm);
   deactivateButton(popupAddSubmitButton);
-  enableValidation({
-    formSelector: '#newcard-form',
-    submitButtonSelector: '#add-save-button',
-    inputErrorClass: 'popup__input_invalid',
-    inputSelector: '.popup__input'
-  });
   openPopup(popupAdd);
 }
 
