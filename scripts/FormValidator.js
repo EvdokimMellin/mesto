@@ -56,8 +56,6 @@ export default class FormValidator {
 
 
   _setEventListeners () {
-    this._toggleButtonState();
-
     this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
         this._checkValidity(input);
@@ -79,6 +77,7 @@ export default class FormValidator {
   };
 
   enableValidation () {
+    this._toggleButtonState();
     this._setEventListeners();
   }
 }
