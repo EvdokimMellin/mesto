@@ -1,7 +1,3 @@
-import { popupEditOpenButton } from "./index.js";
-import { popupAddOpenButton } from "./index.js";
-import { forms } from "./index.js";
-
 export default class FormValidator {
   constructor (settings, form) {
     this._form = form;
@@ -23,7 +19,7 @@ export default class FormValidator {
     error.textContent = '';
   };
 
-  _checkValidity (input) {
+  _toggleInputErrorState (input) {
     if (!input.validity.valid) {
       this._showError(input, input.validationMessage);
     } else {
@@ -58,23 +54,20 @@ export default class FormValidator {
   _setEventListeners () {
     this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
-        this._checkValidity(input);
+        this._toggleInputErrorState(input);
         this._toggleButtonState();
       });
     });
-
-    if (this._form === forms[0]) {
-      popupEditOpenButton.addEventListener('click', () => {
-        this._inputList.forEach((input) => this._hideError(input))
-        this._activateButton();
-      })
-    } else if (this._form === forms[1]) {
-      popupAddOpenButton.addEventListener('click', () => {
-        this._inputList.forEach((input) => this._hideError(input))
-        this._deactivateButton();
-      })
-    }
   };
+
+  resetValidation (initialValidity) {
+    this._inputList.forEach((input) => this._hideError(input));
+    if (initialValidity) {
+      this._activateButton();
+    } else {
+      this._deactivateButton();
+    }
+  }
 
   enableValidation () {
     this._toggleButtonState();

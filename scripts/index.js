@@ -42,17 +42,27 @@ const popupEdit = document.querySelector('.popup_type_edit');
 const profileName = document.querySelector('.profile__name');
 const profileInfo = document.querySelector('.profile__description');
 const popupEditForm = popupEdit.querySelector('.popup__form');
-export const popupEditOpenButton = document.querySelector('.profile__edit-button');
+const popupEditOpenButton = document.querySelector('.profile__edit-button');
 const popupEditCloseButton = popupEdit.querySelector('.popup__close-button');
 const popupEditInputName = popupEdit.querySelector('.popup__input_type_name');
 const popupEditInputInfo = popupEdit.querySelector('.popup__input_type_description');
 const popupAdd = document.querySelector('.popup_type_add');
 const popupAddForm = popupAdd.querySelector('.popup__form');
-export const popupAddOpenButton = document.querySelector('.profile__add-button');
+const popupAddOpenButton = document.querySelector('.profile__add-button');
 const popupAddCloseButton = popupAdd.querySelector('.popup__close-button');
 const popupAddInputName = popupAdd.querySelector('.popup__input_type_name');
 const popupAddInputInfo = popupAdd.querySelector('.popup__input_type_description');
-export const forms = [popupEditForm, popupAddForm];
+const forms = [popupEditForm, popupAddForm];
+const initialValidForms = [popupEditForm];  //Предполагается, что при расширении кода эти массивы
+const initialInvalidForms = [popupAddForm]; //будут пополняться, и, в зависимости от принадлежности к ним,
+                                            //формы будут сбрасывать кнопку до соответствующего состояния
+
+
+
+//Присвоение формам кнопок активации
+
+popupEditForm.formActivationButton = popupEditOpenButton;
+popupAddForm.formActivationButton = popupAddOpenButton;
 
 
 
@@ -70,7 +80,7 @@ function closePopup (popup) {
 }
 
 
-export function renderPopupImage (title, link) {
+function renderPopupImage (title, link) {
   openPopup(popupImage);
   popupImageTitle.textContent = title;
   popupImageContent.setAttribute('src', link);
@@ -83,8 +93,8 @@ function closePopupImage () {
 }
 
 function newCard (name, link, templateSelector) {
-  const card = new Card(name, link, templateSelector);
-  cardsList.prepend(card.renderCard());
+  const card = new Card(name, link, templateSelector, renderPopupImage);
+  cardsList.prepend(card.generateCard());
 }
 
 function renderPopupEdit () {
@@ -145,8 +155,11 @@ function popupFormValidation (form) {
       inputErrorClass: 'popup__input_invalid',
       inputSelector: '.popup__input'
     }, form);
+  const initialValidity = initialValidForms.includes(form);
+
   popupFormValidator.enableValidation();
 
+  form.formActivationButton.addEventListener('click', () => popupFormValidator.resetValidation(initialValidity))
 }
 
 
