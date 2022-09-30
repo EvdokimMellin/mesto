@@ -8,7 +8,7 @@ export default class Card {
 
 
   _createCard () {
-    this._cardElement = document.querySelector(this._templateSelector).content.children[0].cloneNode(true);
+    this._cardElement = document.querySelector(this._templateSelector).content.querySelector('.card').cloneNode(true);
     this._likeButton = this._cardElement.querySelector('.card__like-button');
     this._delButton = this._cardElement.querySelector('.card__del-button');
     this._image = this._cardElement.querySelector('.card__image');
@@ -22,13 +22,13 @@ export default class Card {
     evt.target.classList.toggle('card__like-button_active');
   }
 
-  _del (evt) {
-    evt.target.parentElement.remove();
+  _del (cardElement) {
+    cardElement.remove();
   }
 
   _setEventListeners () {
     this._likeButton.addEventListener('click', this._like);
-    this._delButton.addEventListener('click', this._del);
+    this._delButton.addEventListener('click', () => this._del(this._cardElement));
     this._image.addEventListener('click', () => this._handleOpenPopupImage(this._name, this._link));
   }
 

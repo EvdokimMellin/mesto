@@ -53,16 +53,12 @@ const popupAddCloseButton = popupAdd.querySelector('.popup__close-button');
 const popupAddInputName = popupAdd.querySelector('.popup__input_type_name');
 const popupAddInputInfo = popupAdd.querySelector('.popup__input_type_description');
 const forms = [popupEditForm, popupAddForm];
-const initialValidForms = [popupEditForm];  //Предполагается, что при расширении кода эти массивы
-const initialInvalidForms = [popupAddForm]; //будут пополняться, и, в зависимости от принадлежности к ним,
-                                            //формы будут сбрасывать кнопку до соответствующего состояния
-
-
-
-//Присвоение формам кнопок активации
-
-popupEditForm.formActivationButton = popupEditOpenButton;
-popupAddForm.formActivationButton = popupAddOpenButton;
+const initialValidForms = [popupEditForm];
+const initialInvalidForms = [popupAddForm];
+const openButtonsObj = {
+  [popupEditForm.id]: popupEditOpenButton,
+  [popupAddForm.id]: popupAddOpenButton,
+};
 
 
 
@@ -159,7 +155,7 @@ function popupFormValidation (form) {
 
   popupFormValidator.enableValidation();
 
-  form.formActivationButton.addEventListener('click', () => popupFormValidator.resetValidation(initialValidity))
+  openButtonsObj[form.id].addEventListener('click', () => popupFormValidator.resetValidation(initialValidity))
 }
 
 
