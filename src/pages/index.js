@@ -1,7 +1,15 @@
 //Импорт
 
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
+import './index.css';
+
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+
 
 
 
@@ -59,90 +67,72 @@ const openButtonsObj = {
   [popupEditForm.id]: popupEditOpenButton,
   [popupAddForm.id]: popupAddOpenButton,
 };
+const popupsArray = [popupImage, popupEdit, popupAdd];
+let popupInstances;
+let items;
+let popupImageInstance;
 
 
 
 //Функции
 
-function openPopup (popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupByEscape);
+function createPopups () {
+  popupInstances = popupsArray.map(popup => {
+    let popupClass = '';
+    popup.classList.forEach(selector => {
+      if (selector.includes('popup_type')){
+        popupClass = selector;
+      }
+    })
+    if (popupClass === 'popup_type_add') {
+      const newPopup = new PopupWithForm(`.${popupClass}`, submitPopupAdd);
+      popupAddOpenButton.addEventListener('click', newPopup.open.bind(newPopup));
+      return newPopup;
+    } else if (popupClass === 'popup_type_edit') {
+      const newPopup = new PopupWithForm(`.${popupClass}`, submitPopupEdit);
+      popupEditOpenButton.addEventListener('click', newPopup.open.bind(newPopup));
+      return newPopup;
+    } else if (popupClass === 'popup_type_image') {
+      return new PopupWithImage(`.${popupClass}`);
+    }
+  })
+  popupInstances.forEach(popup => popup.setEventListeners())
 }
 
-
-function closePopup (popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupByEscape);
+function createItems () {
+  items = initialCards.map(card => {
+    popupImageInstance = popupInstances.find(item => item._popup === popupImage);
+    const item = new Card(card.name, card.link, '#card-template', popupImageInstance.open.bind(popupImageInstance), function () {
+      this._image.addEventListener('click', () => this._handleOpenPopupImage(this._link, this._name))});
+    return item;
+  })
+  return items;
 }
 
-
-function renderPopupImage (title, link) {
-  openPopup(popupImage);
-  popupImageTitle.textContent = title;
-  popupImageContent.setAttribute('src', link);
-  popupImageContent.setAttribute('alt', title);
+function addCards () {
+  const section = new Section({items: createItems(), renderer: (item) => item.generateCard()}, '.cards__list');
+  section.renderElements();
 }
-
-
-function closePopupImage () {
-  closePopup(popupImage);
-}
-
-function newCard (name, link, templateSelector) {
-  const card = new Card(name, link, templateSelector, renderPopupImage);
-  cardsList.prepend(card.generateCard());
-}
-
-function renderPopupEdit () {
-  popupEditInputName.value = profileName.textContent;
-  popupEditInputInfo.value = profileInfo.textContent;
-  openPopup(popupEdit);
-}
-
-
-function closePopupEdit () {
-  closePopup(popupEdit);
-}
-
 
 function submitPopupEdit (evt) {
   evt.preventDefault();
-  profileName.textContent = popupEditInputName.value;
-  profileInfo.textContent = popupEditInputInfo.value;
-  closePopup(popupEdit);
+  const b = new UserInfo({
+    nameSelector: '.profile__name',
+    descriptionSelector: '.profile__description'
+  });
+  b.setUserInfo(this._titleInput.value, this._descriptionInput.value);
+  this._getInputValues(b.getUserInfo());
+  this.close();
 }
-
-
-function renderPopupAdd () {
-  popupAddForm.reset();
-  openPopup(popupAdd);
-}
-
-
-function closePopupAdd () {
-  closePopup(popupAdd);
-}
-
 
 function submitPopupAdd (evt) {
   evt.preventDefault();
 
-  newCard(popupAddInputName.value, popupAddInputInfo.value, '#card-template');
+  const newCard = new Section({items: [new Card(popupAddInputName.value, popupAddInputInfo.value, '#card-template', popupImageInstance.open.bind(popupImageInstance), function () {
+    this._image.addEventListener('click', () => this._handleOpenPopupImage(this._link, this._name))})], renderer: (item) => item.generateCard()}, '.cards__list')
+  newCard.renderElements();
 
-  closePopup(popupAdd);
-}
-
-function closePopupByOverlay (evt) {
-  if (evt.target.classList.contains('popup')) {
-    closePopup (evt.target);
-  }
-}
-
-function closePopupByEscape (evt) {
-  if (evt.key === 'Escape') {
-    const popup = document.querySelector('.popup_opened')
-    closePopup (popup);
-  }
+  this.close();
 }
 
 function popupFormValidation (form) {
@@ -162,22 +152,11 @@ function popupFormValidation (form) {
 
 //Исполнительный код
 
-popupImageCloseButton.addEventListener('click', closePopupImage);
-popupImage.addEventListener('click', closePopupByOverlay);
+createPopups();
+addCards();
 
-initialCards.forEach(function (initialCard) {
-  newCard(initialCard.name, initialCard.link, '#card-template');
-});
 forms.forEach(function (form) {
   popupFormValidation (form);
 });
 
-popupEditOpenButton.addEventListener('click', renderPopupEdit);
-popupEditCloseButton.addEventListener('click', closePopupEdit);
-popupEdit.addEventListener('click', closePopupByOverlay);
-popupEditForm.addEventListener('submit', submitPopupEdit);
 
-popupAddOpenButton.addEventListener('click', renderPopupAdd);
-popupAddCloseButton.addEventListener('click', closePopupAdd);
-popupAdd.addEventListener('click', closePopupByOverlay);
-popupAddForm.addEventListener('submit', submitPopupAdd);
