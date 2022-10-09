@@ -2,11 +2,11 @@ export default class Popup {
   constructor (popupSelector) {
     this._popupSelector = popupSelector;
     this._popup = document.querySelector(popupSelector);
+    this._escCloseCallback = this._handleEscClose.bind(this);
   }
 
 
   open () {
-    this._escCloseCallback = this._handleEscClose.bind(this); //bind создает новую ссылку на функцию, поэтому, чтобы удалить слушатель при закрытии попапа мне пришлось присвоить ссылку переменной
     this._popup.classList.add('popup_opened');
     document.addEventListener('keydown', this._escCloseCallback);
   }

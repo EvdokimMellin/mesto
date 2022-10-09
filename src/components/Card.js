@@ -5,8 +5,6 @@ export default class Card {
     this._templateSelector = templateSelector;
     this._handleOpenPopupImage = handleOpenPopupImage;
     this._handleCardClick = handleCardClick;
-    //this._popupInstance = popupInstance;
-    // this.info = {name: name, link: link}
   }
 
 
@@ -21,18 +19,19 @@ export default class Card {
     this._image.setAttribute('src', this._link);
   }
 
-  _like (evt) {
-    evt.target.classList.toggle('card__like-button_active');
+  _like () {
+    this.classList.toggle('card__like-button_active');
   }
 
-  _del (cardElement) {
-    cardElement.remove();
+  _del () {
+    this._cardElement.remove();
+    this._cardElement = null;
   }
 
   _setEventListeners () {
     this._likeButton.addEventListener('click', this._like);
-    this._delButton.addEventListener('click', () => this._del(this._cardElement));
-    this._handleCardClick();
+    this._delButton.addEventListener('click', () => this._del());
+    this._image.addEventListener('click', this._handleCardClick.bind(this))
   }
 
   generateCard () {

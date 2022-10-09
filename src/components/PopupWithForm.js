@@ -10,23 +10,32 @@ export default class PopupWithForm extends Popup {
   }
 
 
-  _getInputValues ({name, description}) {
-    this._titleInput.setAttribute('value', name);
-    this._descriptionInput.setAttribute('value', description);
+  _getInputValues () {
+    return {title: this._titleInput.value, description: this._descriptionInput.value};
+  }
+
+  open () {
+    super.open();
+
+    this._initialTitleInputValue = this._titleInput.value;
+    this._initialDescriptionInputValue = this._descriptionInput.value;
   }
 
   close () {
-    this._popup.classList.remove('popup_opened');
-    this._popupForm.reset();
-    document.removeEventListener('keydown', this._escCloseCallback);
+    super.close();
+
+    this._titleInput.value = this._initialTitleInputValue;
+    this._descriptionInput.value = this._initialDescriptionInputValue;
   }
 
   setEventListeners () {
-    const closeButton = this._popup.querySelector('.popup__close-button');
-    const submitButton = this._popup.querySelector('.popup__save-button')
+    super.setEventListeners();
 
-    this._popup.addEventListener('click', this._handleOverlayClose.bind(this));
-    closeButton.addEventListener('click', this.close.bind(this));
-    submitButton.addEventListener('click', this._submitCallback.bind(this));
+    const submitButton = this._popup.querySelector('.popup__save-button');
+
+    submitButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      this._submitCallback(this._getInputValues());
+    });
   }
 }
