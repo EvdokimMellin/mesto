@@ -16,10 +16,11 @@ import UserInfo from "../components/UserInfo.js";
 
 //Переменные
 
-const popupImage = document.querySelector('.popup_type_image');
 const popupEdit = document.querySelector('.popup_type_edit');
 const popupEditForm = popupEdit.querySelector('.popup__form');
 const popupEditOpenButton = document.querySelector('.profile__edit-button');
+const popupEditTitleInput = popupEdit.querySelector('.popup__input_type_name')
+const popupEditDescriptionInput = popupEdit.querySelector('.popup__input_type_description')
 const popupAdd = document.querySelector('.popup_type_add');
 const popupAddForm = popupAdd.querySelector('.popup__form');
 const popupAddOpenButton = document.querySelector('.profile__add-button');
@@ -30,40 +31,36 @@ const popupOpenButtonsObj = {
   [popupEditForm.id]: popupEditOpenButton,
   [popupAddForm.id]: popupAddOpenButton,
 };
-const popupsArray = [popupImage, popupEdit, popupAdd];
 const userInfoIntance = new UserInfo({
   nameSelector: '.profile__name',
   descriptionSelector: '.profile__description'
 });
-let popupInstances;
-let popupImageInstance;
-let section;
+const section = new Section({items: initialCards, renderer: function (item) {
+  const cardIntance = createCard(item.name, item.link);
+  section.addItem(cardIntance);
+}}, '.cards__list');
 
 
 
 //Функции
 
 function createCard (name, link) {
-  return new Card(name, link, '#card-template', popupImageInstance.open.bind(popupImageInstance), function () {this._handleOpenPopupImage(this._link, this._name)});
+  const newCard = new Card(name, link, '#card-template', popupImageInstance.open.bind(popupImageInstance), function (link, name) {this._handleOpenPopupImage(link, name)});
+
+  return newCard.generateCard();
 }
 
-function addCards () {
-  section = new Section({items: initialCards, renderer: function (item) {
-    const cardIntance = createCard(item.name, item.link);
-    section.addItem(cardIntance.generateCard());
-  }}, '.cards__list');
-  section.renderElements();
-}
-
-function submitPopupEdit ({title, description}) {
+function submitPopupEdit ([title, description]) {
   userInfoIntance.setUserInfo(title, description);
   this.close();
-  this._titleInput.value = userInfoIntance.getUserInfo().name;
-  this._descriptionInput.value = userInfoIntance.getUserInfo().description;
+
+  const {name: userName, description: userDescription} = userInfoIntance.getUserInfo();
+  popupEditTitleInput.value = userName;
+  popupEditDescriptionInput.value = userDescription;
 }
 
-function submitPopupAdd ({title, description}) {
-  section.addItem(createCard(title, description).generateCard());
+function submitPopupAdd ([title, description]) {
+  section.addItem(createCard(title, description));
   this.close();
 }
 
@@ -72,29 +69,18 @@ function submitPopupAdd ({title, description}) {
 //Исполнительный код
 
 
-popupInstances = popupsArray.map(popup => {
-  let popupClass = '';
-  popup.classList.forEach(selector => {
-    if (selector.includes('popup_type')){
-      popupClass = selector;
-    }
-  })
-  if (popupClass === 'popup_type_add') {
-    const newPopup = new PopupWithForm(`.${popupClass}`, submitPopupAdd);
-    popupAddOpenButton.addEventListener('click', newPopup.open.bind(newPopup));
-    return newPopup;
-  } else if (popupClass === 'popup_type_edit') {
-    const newPopup = new PopupWithForm(`.${popupClass}`, submitPopupEdit);
-    popupEditOpenButton.addEventListener('click', newPopup.open.bind(newPopup));
-    return newPopup;
-  } else if (popupClass === 'popup_type_image') {
-    popupImageInstance = new PopupWithImage(`.${popupClass}`);
-    return popupImageInstance;
-  }
-})
-popupInstances.forEach(popup => popup.setEventListeners())
+const popupEditProfileInstance = new PopupWithForm(`.popup_type_edit`, submitPopupEdit);
+const popupAddCardInstance = new PopupWithForm(`.popup_type_add`, submitPopupAdd);
+const popupImageInstance = new PopupWithImage(`.popup_type_image`, submitPopupEdit);
 
-addCards();
+popupEditProfileInstance.setEventListeners();
+popupAddCardInstance.setEventListeners();
+popupImageInstance.setEventListeners();
+
+popupEditOpenButton.addEventListener("click", () => popupEditProfileInstance.open());
+popupAddOpenButton.addEventListener("click", () => popupAddCardInstance.open());
+
+section.renderElements();
 
 forms.forEach(function (form) {
   const popupFormValidator = new FormValidator ({

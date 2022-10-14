@@ -23,15 +23,17 @@ export default class Card {
     this.classList.toggle('card__like-button_active');
   }
 
-  _del () {
+  _delete () {
     this._cardElement.remove();
     this._cardElement = null;
   }
 
   _setEventListeners () {
     this._likeButton.addEventListener('click', this._like);
-    this._delButton.addEventListener('click', () => this._del());
-    this._image.addEventListener('click', this._handleCardClick.bind(this))
+    this._delButton.addEventListener('click', () => this._delete());
+    this._image.addEventListener('click', () => {
+      this._handleCardClick(this._link, this._name);
+    })
   }
 
   generateCard () {
