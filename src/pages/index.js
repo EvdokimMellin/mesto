@@ -50,17 +50,20 @@ function createCard (name, link) {
   return newCard.generateCard();
 }
 
-function submitPopupEdit ([title, description]) {
-  userInfoIntance.setUserInfo(title, description);
-  this.close();
+function submitPopupEdit ({editName, editDescription}) {
+  userInfoIntance.setUserInfo(editName, editDescription);
 
   const {name: userName, description: userDescription} = userInfoIntance.getUserInfo();
+  this.setInitialData({editName: userName, editDescription: userDescription});
+  this.close();
   popupEditTitleInput.value = userName;
   popupEditDescriptionInput.value = userDescription;
+
 }
 
-function submitPopupAdd ([title, description]) {
-  section.addItem(createCard(title, description));
+function submitPopupAdd ({addName, addDescription}) {
+  section.addItem(createCard(addName, addDescription));
+  this.setInitialData({addName: '', addDescription: ''})
   this.close();
 }
 
@@ -74,7 +77,11 @@ const popupAddCardInstance = new PopupWithForm(`.popup_type_add`, submitPopupAdd
 const popupImageInstance = new PopupWithImage(`.popup_type_image`, submitPopupEdit);
 
 popupEditProfileInstance.setEventListeners();
+popupEditProfileInstance.setInitialData({editName: 'Жак-Ив Кусто', editDescription: 'Исследователь окена'})
+
 popupAddCardInstance.setEventListeners();
+popupAddCardInstance.setInitialData({addName: '', addDescription: ''})
+
 popupImageInstance.setEventListeners();
 
 popupEditOpenButton.addEventListener("click", () => popupEditProfileInstance.open());

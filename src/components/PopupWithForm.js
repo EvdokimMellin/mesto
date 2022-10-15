@@ -5,33 +5,27 @@ export default class PopupWithForm extends Popup {
     super(popupSelector);
     this._submitCallback = submitCallback;
     this._popupForm = this._popup.querySelector('.popup__form');
-    this._textInputsArray = Array.from(this._popupForm.elements).filter((element) => {
-      if (element.value || element.placeholder) { // Дизайн сайта предполагает, что у всех текстовых полей есть либо предустановленное значение, либо плейсхолдер, а значит при добавлении новых форм это условие все еще будет равно true для всех текстовых полей ввода
-        return element;
-      }
+    this._textInputsArray = Array.from(this._popupForm.querySelectorAll('.popup__input'));
+  }
+
+  _getInputValues() {
+    const formValues = {};
+    this._textInputsArray.forEach(({name, value}) => {
+      formValues[name] = value;
     })
+    return formValues;
   }
 
-
-  _getInputValues () {
-    return this._textInputsArray.map((input) => {return input.value});
-  }
-
-  _setInitialData () {
-    this._initialData = this._getInputValues();
-  }
-
-  open () {
-    super.open();
-    this._setInitialData();
+  setInitialData (data) {
+    this._initialData = data;
   }
 
   close () {
     super.close();
 
-    for (let i = 0; i < this._textInputsArray.length; i++) {
-      this._textInputsArray[i].value = this._initialData[i];
-    }
+    this._textInputsArray.forEach((input) => {
+      input.value = this._initialData[input.name];
+    })
   }
 
   setEventListeners () {
