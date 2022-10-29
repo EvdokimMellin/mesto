@@ -40,19 +40,43 @@
         <p class="popup__image-title">Изображение</p>
       </div>
     </div>
+    <div class="popup popup_type_confirm">
+      <div class="popup__confirm-container">
+        <button class="popup__close-button" type="button"></button>
+        <p class="popup__title">Вы уверены?</p>
+        <form name="confirm-popup" class="popup__form" id="confirm-form" novalidate>
+          <button type="submit" class="popup__save-button popup__confirm-button" id="confirm-button">Да</button>
+        </form>
+      </div>
+    </div>
+    <div class="popup popup_type_avatar">
+      <div class="popup__container popup__avatar-container">
+        <button class="popup__close-button" type="button"></button>
+        <p class="popup__title">Обновить аватар</p>
+        <form name="avatar-popup" class="popup__form" id="avatar-form" novalidate>
+          <input type="url" name="avatarLink" id="avatar-link" class="popup__input popup__input_type_link popup__avatar-link" placeholder="Ссылка на картинку" required>
+          <span class="popup__input-error avatar-link-error"></span>
+          <button type="submit" class="popup__save-button popup__avatar-button" id="avatar-save-button">Сохранить</button>
+        </form>
+      </div>
+    </div>
+
 
     <header class="header">
       <img src="<%=require('./images/logo.svg')%>" alt="Место" class="header__logo">
     </header>
     <main class="content">
       <section class="profile">
-        <img src="<%=require('./images/profile-avatar.svg')%>" alt="Аватар" class="profile__avatar">
+        <img src="<%=require('./images/avatar-placeholder.svg')%>" alt="Аватар" class="profile__avatar">
+        <div class="profile__avatar-hover">
+          <img src="<%=require('./images/avatar-pencil.svg')%>" alt="Редактировать" class="profile__avatar-pencil">
+        </div>
         <div class="profile__info">
           <div class="profile__name-container">
-            <h1 class="profile__name">Жак-Ив Кусто</h1>
+            <h1 class="profile__name"></h1>
             <button class="profile__edit-button" type="button"></button>
           </div>
-          <p class="profile__description">Исследователь океана</p>
+          <p class="profile__description"></p>
         </div>
         <button class="profile__add-button" type="button"><img src="<%=require('./images/add-button.svg')%>" alt="Добавить" class="profile__add-image"></button>
       </section>
@@ -67,10 +91,10 @@
 
   <template id="card-template">
     <li class="card">
-      <img src="#" alt="Изображение" class="card__image">
+      <img src="#" alt="Изображение" class="card__image" onerror="console.log(`Не удалось загрузить картинку: ${this.alt}`)">
       <h2 class="card__title"></h2>
       <button class="card__like-button" type="button"></button>
-      <button class="card__del-button" type="button"></button>
+      <p class="card__likes-number"></p>
     </li>
   </template>
 </body>
