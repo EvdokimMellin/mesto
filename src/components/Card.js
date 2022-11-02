@@ -1,7 +1,5 @@
-import Api from "./Api.js";
-
 export default class Card {
-  constructor (name, link, likes, id, isMine, templateSelector, handleOpenPopupImage, handleCardClick, handleOpenPopupConfirm, confirmButton, myId) {
+  constructor (name, link, likes, id, isMine, templateSelector, handleOpenPopupImage, handleCardClick, handleOpenPopupConfirm, confirmButton, myId, api, giveCardInstance) {
     this._name = name;
     this._link = link;
     this._likes = likes;
@@ -12,8 +10,9 @@ export default class Card {
     this._confirmButton = confirmButton;
     this._isMine = isMine;
     this._id = id;
-    this._api = new Api();
+    this._api = api;
     this._myId = myId;
+    this._giveCardInstance = giveCardInstance;
   }
 
 
@@ -42,8 +41,9 @@ export default class Card {
     if (this._likeButton.classList.contains('card__like-button_active')) {
       this._api.removeLike(this._id)
         .then((res) => {
-          console.log('Лайк убран');
           this._likesNumber.textContent = res.likes.length;
+          this._likeButton.classList.remove('card__like-button_active')
+          console.log('Лайк убран');
         })
         .catch((err) => {
           console.log(err);
@@ -51,30 +51,29 @@ export default class Card {
     } else {
       this._api.like(this._id)
         .then((res) => {
-          console.log('Лайк поставлен');
           this._likesNumber.textContent = res.likes.length;
+          this._likeButton.classList.add('card__like-button_active')
+          console.log('Лайк поставлен');
         })
         .catch((err) => {
           console.log(err);
         });
     }
 
-    this._likeButton.classList.toggle('card__like-button_active');
+
 
   }
 
-  _delete () {
-    if (this._cardElement) {
-      this._cardElement.remove();
-      this._cardElement = null;
-      this._api.deleteCard(this._id)
-        .then((res) => {
-          console.log(res);
+  delete () {
+    this._api.deleteCard(this._id)
+      .then(() => {
+        this._cardElement.remove();
+        this._cardElement = null;
+        console.log('Карточка удалена');
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   _setEventListeners () {
@@ -88,7 +87,7 @@ export default class Card {
     if (this._delButton) {
       this._delButton.addEventListener('click', () => {
         this._handleOpenPopupConfirm();
-        this._confirmButton.addEventListener('click', () => this._delete());
+        this._giveCardInstance();
       });
     }
     this._image.addEventListener('click', () => {
