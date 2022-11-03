@@ -62,9 +62,9 @@ function createCard (name, link, likes, id, isMine) {
   return newCard.generateCard();
 }
 
-function renderLoading(isLoading, button, initialButtonText) {
+function renderLoading(isLoading, button, initialButtonText, renderText) {
   if (isLoading) {
-    button.textContent = 'Сохранение...';
+    button.textContent = renderText;
   } else {
     button.textContent = initialButtonText;
   }
@@ -72,65 +72,70 @@ function renderLoading(isLoading, button, initialButtonText) {
 
 
 function submitPopupEdit ({editName, editDescription}) {
-  renderLoading(true, popupEdit.querySelector('.popup__save-button'), 'Сохранить');
+  renderLoading(true, popupEdit.querySelector('.popup__save-button'), 'Сохранить', 'Сохранение...');
 
   api.updateUserInfo(editName, editDescription)
   .then(() => {
     console.log('Данные успешно обновлены');
+    userInfoInstance.setUserInfo(editName, editDescription, '', '');
+    const {name: userName, description: userDescription} = userInfoInstance.getUserInfo();
+    this.setInitialData({editName: userName, editDescription: userDescription});
+    this.close();
   })
   .catch((err) => {
     console.log(err);
   })
   .finally(() => {
-    userInfoInstance.setUserInfo(editName, editDescription, '', '');
-    const {name: userName, description: userDescription} = userInfoInstance.getUserInfo();
-    this.setInitialData({editName: userName, editDescription: userDescription});
-    this.close();
-
-    renderLoading(false, popupEdit.querySelector('.popup__save-button'), 'Сохранить');
+    renderLoading(false, popupEdit.querySelector('.popup__save-button'), 'Сохранить', 'Сохранение...');
   });
 
 }
 
 function submitPopupAdd ({addName, addDescription}) {
-  renderLoading(true, popupAdd.querySelector('.popup__save-button'), 'Создать');
+  renderLoading(true, popupAdd.querySelector('.popup__save-button'), 'Создать', 'Сохранение...');
 
   api.addCard(addName, addDescription)
     .then((res) => {
       section.addItem(createCard(addName, addDescription, [], res._id, true));
+      this.setInitialData({addName: '', addDescription: ''})
+      this.close();
       console.log('Карточка успешно добавлена');
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, popupAdd.querySelector('.popup__save-button'), 'Создать');
-      this.setInitialData({addName: '', addDescription: ''})
-      this.close();
+      renderLoading(false, popupAdd.querySelector('.popup__save-button'), 'Создать', 'Сохранение...');
     });
 
 }
 
 function submitPopupConfirm () {
-  cardToDelete.delete();
+  renderLoading(true, popupConfirmSubmitButton, 'Да', 'Удаление...');
 
-  this.close();
+  cardToDelete.delete()
+    .then(() => {
+      this.close();
+    })
+    .finally(() => {
+      renderLoading(false, popupConfirmSubmitButton, 'Да', 'Удаление...');
+    })
 }
 
 function submitPopupAvatar ({avatarLink}) {
-  renderLoading(true, popupAvatar.querySelector('.popup__save-button'), 'Сохранить');
+  renderLoading(true, popupAvatar.querySelector('.popup__save-button'), 'Сохранить', 'Сохранение...');
 
   api.updateAvatar(avatarLink)
     .then(() => {;
+      userInfoInstance.setUserInfo('', '', avatarLink, '');
       console.log('Аватар обновлен');
+      this.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, popupAvatar.querySelector('.popup__save-button'), 'Сохранить');
-      userInfoInstance.setUserInfo('', '', avatarLink, '');
-      this.close();
+      renderLoading(false, popupAvatar.querySelector('.popup__save-button'), 'Сохранить', 'Сохранение...');
     });
 
 }

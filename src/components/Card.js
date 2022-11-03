@@ -65,7 +65,7 @@ export default class Card {
   }
 
   delete () {
-    this._api.deleteCard(this._id)
+    return this._api.deleteCard(this._id)
       .then(() => {
         this._cardElement.remove();
         this._cardElement = null;
